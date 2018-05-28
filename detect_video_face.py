@@ -17,7 +17,8 @@ print('video_name: '+video_name)
 print('show_image: '+str(show_image))
 
 cap = cv2.VideoCapture(video_name)
-frame_num = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+# frame_num = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+frame_num = int(cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT))
 print(' frame_num: '+str(frame_num))
 
 rfcn_face_detector = RfcnResnet101FaceDetector(min_confidence=0.5)
