@@ -7,6 +7,20 @@ def detect_face(detector, img):
     return detector.detect(img, color=(255, 0, 0), draw_faces=False, min_confidence=0.8)
 
 
+def find_largest_face(face_list):
+    largest_face = []
+    max_face_area = -1
+    max_face = None
+    for kk in range(len(face_list)):
+        ff = face_list[kk]
+        if ff[2] * ff[3] > max_face_area:
+            max_face_area = ff[2] * ff[3]
+            max_face = ff
+    if max_face is not None:
+        largest_face.append(max_face)
+    return largest_face
+
+
 if len(sys.argv) != 3:
     print('usage: python detect_video_face.py [video_name] [show_image]')
     sys.exit()
@@ -28,6 +42,7 @@ for i in range(frame_num):
     if not success:
         continue
     faces = detect_face(rfcn_face_detector, frame)
+    faces = find_largest_face(faces)
     for k in range(len(faces)):
         f = faces[k]
         face_path = '%s_%05d_%03d_original.jpg' % (video_name, i, k)
