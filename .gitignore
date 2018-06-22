@@ -1,4 +1,6 @@
 models/*
 *.pyc
 .idea/*
+face_rect
+
 

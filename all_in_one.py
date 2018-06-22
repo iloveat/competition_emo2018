@@ -4,12 +4,11 @@ import os
 
 
 root_dir = '/home/brycezou/DATA/emo_dataset'
-root_dir = './data'
 rfcn_face_detector = RfcnResnet101FaceDetector(min_confidence=0.5)
 
 
 def detect_face(detector, img):
-    return detector.detect(img, color=(255, 0, 0), draw_faces=False, min_confidence=0.8)
+    return detector.detect(img, color=(255, 0, 0), draw_faces=False, min_confidence=0.5)
 
 
 def find_largest_face(face_list):
@@ -29,8 +28,8 @@ def find_largest_face(face_list):
 def detect_face_in_video_rfcn(video_path, show_image=True):
     print('video_name: '+video_path)
     cap = cv2.VideoCapture(video_path)
-    frame_num = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    # frame_num = int(cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT))
+    # frame_num = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    frame_num = int(cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT))
     print(' frame_num: '+str(frame_num))
 
     for i in range(frame_num):
@@ -41,17 +40,21 @@ def detect_face_in_video_rfcn(video_path, show_image=True):
         faces = find_largest_face(faces)
         for k in range(len(faces)):
             f = faces[k]
-            face_path_org = '%s_%05d_%03d_org.jpg' % (video_path, i, k)
+            # print f[4]
+            face_path_org = '%s_%05d_%03d_org_%.8f.jpg' % (video_path, i, k, f[4])
             face_roi_org = frame[f[1]:f[1]+f[3], f[0]:f[0]+f[2]]
             cv2.imwrite(face_path_org, face_roi_org)
 
-            face_path_pad = '%s_%05d_%03d_pad.jpg' % (video_path, i, k)
+            face_path_pad = '%s_%05d_%03d_pad_%.8f.jpg' % (video_path, i, k, f[4])
             pad_t = f[1]-f[3]/10 if f[1]-f[3]/10 > 0 else 0
             pad_b = f[1]+f[3]+f[3]/10 if f[1]+f[3]+f[3]/10 < frame.shape[0] else frame.shape[0]
             pad_l = f[0]-f[2]/10 if f[0]-f[2]/10 > 0 else 0
             pad_r = f[0]+f[2]+f[2]/10 if f[0]+f[2]+f[2]/10 < frame.shape[1] else frame.shape[1]
             face_roi_pad = frame[int(pad_t):int(pad_b), int(pad_l):int(pad_r)]
             cv2.imwrite(face_path_pad, face_roi_pad)
+
+            with open('face_rect', 'a+') as fi:
+                fi.write('%s %d %d %d %d\n' % (face_path_pad, pad_l, pad_t, pad_r, pad_b))
 
             print(face_path_org)
             if show_image:
