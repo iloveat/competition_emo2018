@@ -31,22 +31,22 @@ def detect_and_predict(image):
     return shape_list
 
 
-img = cv2.imread('test1.jpg')
+img = cv2.imread('./image/test2.jpg')
 
-# shapes = detect_and_predict(img)
-# for shape in shapes:
-#     for i in range(68):
-#         xx = shape.part(i).x
-#         yy = shape.part(i).y
-#         cv2.circle(img, (xx, yy), 2, (255, 0, 0), 2)
-#         cv2.imshow('result', img)
+shapes = detect_and_predict(img)
+for shape in shapes:
+    for i in range(68):
+        xx = shape.part(i).x
+        yy = shape.part(i).y
+        cv2.circle(img, (xx, yy), 2, (255, 0, 0), 2)
+        cv2.imshow('result', img)
 
-shape = predict_from_rect(img, 170, 313, 491, 634)
-for i in range(68):
-    xx = shape.part(i).x
-    yy = shape.part(i).y
-    cv2.circle(img, (xx, yy), 2, (255, 0, 0), 2)
-    cv2.imshow('result', img)
+# shape = predict_from_rect(img, 170, 313, 491, 634)
+# for i in range(68):
+#     xx = shape.part(i).x
+#     yy = shape.part(i).y
+#     cv2.circle(img, (xx, yy), 2, (255, 0, 0), 2)
+#     cv2.imshow('result', img)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
