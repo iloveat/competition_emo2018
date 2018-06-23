@@ -1,4 +1,4 @@
-models/*
+models/rfcn_resnet101_91674/*
 *.pyc
 .idea/*
 face_rect
