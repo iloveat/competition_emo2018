@@ -54,10 +54,14 @@ def obtain_face68_in_video(video_path, show_image=True):
             with open('face_68', 'a+') as fo:
                 fo.write('%s ' % face_path_prefix)
                 for p in range(68):
-                    xx = shape.part(p).x
-                    yy = shape.part(p).y
-                    cv2.circle(frame, (xx, yy), 2, (255, 0, 0), 2)
-                    fo.write('%d %d ' % (xx, yy))
+                    xx = shape.part(p).x-rect[1]
+                    yy = shape.part(p).y-rect[2]
+                    wr = 128.0 / (rect[3]-rect[1])
+                    hr = 128.0 / (rect[4]-rect[2])
+                    nx = int(xx * wr)
+                    ny = int(yy * hr)
+                    cv2.circle(frame, (nx, ny), 2, (255, 0, 0), 2)
+                    fo.write('%d %d ' % (nx, ny))
                 fo.write('\n')
         else:
             pass
