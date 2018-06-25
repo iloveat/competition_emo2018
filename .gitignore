@@ -3,5 +3,6 @@ models/rfcn_resnet101_91674/*
 .idea/*
 face_rect
 face_68*
+data/*
 
 
