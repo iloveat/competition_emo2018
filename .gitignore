@@ -6,7 +6,8 @@ face_68*
 data/*
 train_list.txt
 valid_list.txt
-
+ckp/*
+cntk_sru_train.log
 
 
 
