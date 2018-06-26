@@ -74,6 +74,17 @@ class ListDataProvider(object):
 
         return temp_x, temp_y
 
+    def load_one_sample(self):
+
+        x_features, x_frame_number = load_binary_file(self.x_files_list[self.file_index], self.n_ins)
+        y_features, y_frame_number = load_binary_file(self.y_files_list[self.file_index], self.n_outs)
+
+        self.file_index += 1
+        if self.file_index >= self.list_size:
+            self.file_index = 0
+            self.end_reading = True
+
+        return x_features, y_features
 
 
 
