@@ -4,5 +4,11 @@ models/rfcn_resnet101_91674/*
 face_rect
 face_68*
 data/*
+train_list.txt
+valid_list.txt
+
+
+
+
 
 
