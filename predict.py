@@ -23,14 +23,41 @@ net.hybridize()
 net.load_params(saved_ckp_model, ctx=ctx)
 
 
-test_data = './data/Sad/021913080.mp4_array'
+with open('train_list.txt') as f:
+    lines = f.readlines()
+    for line in lines:
+        input_name = line.replace('\n', '')+'_array'
+        # print input_name
+        input_x = np.fromfile(input_name, dtype=np.float32).reshape((-1, 1024))
+        input_x = nd.array(input_x).as_in_context(ctx)
+        hidden = user_forward(model=net, x=input_x)
+        output = net.final_dense(hidden)
+        hidden_name = input_name[:-5] + '1x1024'
+        output_name = input_name[:-5] + '1x7'
+        hidden.asnumpy().astype(np.float32).tofile(hidden_name)
+        output.asnumpy().astype(np.float32).tofile(output_name)
+        print hidden_name
+        print output_name
 
-input_x = np.fromfile(test_data, dtype=np.float32).reshape((-1, 1024))
 
-input_x = nd.array(input_x).as_in_context(ctx)
+with open('valid_list.txt') as f:
+    lines = f.readlines()
+    for line in lines:
+        input_name = line.replace('\n', '')+'_array'
+        # print input_name
+        input_x = np.fromfile(input_name, dtype=np.float32).reshape((-1, 1024))
+        input_x = nd.array(input_x).as_in_context(ctx)
+        hidden = user_forward(model=net, x=input_x)
+        output = net.final_dense(hidden)
+        hidden_name = input_name[:-5] + '1x1024'
+        output_name = input_name[:-5] + '1x7'
+        hidden.asnumpy().astype(np.float32).tofile(hidden_name)
+        output.asnumpy().astype(np.float32).tofile(output_name)
+        print hidden_name
+        print output_name
 
-output = user_forward(model=net, x=input_x)
-print output
+
+
 
 
 
